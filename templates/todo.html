@@ -1,0 +1,11 @@
+{{define "todo"}}
+<form
+  class="todo-element"
+  id="todo-{{.ID}}"
+  hx-swap-oob="beforeend:#todo-list"
+  hx-trigger="keyup delay:.5s from:#todo-input-{{.ID}},change from:#todo-checkbox-{{.ID}}">
+
+    {{template "todo-input" .}}
+    <!-- <button type="button" class="delete-button" hx-delete="/todos/{{.ID}}" hx-target="#todo-{{.ID}}">Delete</button> -->
+</form>
+{{end}}

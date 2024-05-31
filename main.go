@@ -1,38 +1,32 @@
 package main
 
 import (
-	"html/template"
-	"net/http"
 	"log"
-	"path/filepath"
+	"net/http"
+
+	"github.com/gorilla/mux"
+	"github.com/yugarinn/plain.do/handlers"
+	"github.com/yugarinn/plain.do/repository"
 )
 
-var templates *template.Template
-
-func init() {
-	templates = template.Must(template.ParseFiles(
-		filepath.Join("templates", "base.html"),
-		filepath.Join("templates", "index.html"),
-	))
-}
-
-func renderTemplate(w http.ResponseWriter, templateName string) {
-	err := templates.ExecuteTemplate(w, templateName, nil)
-
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
-}
-
-func indexHandler(w http.ResponseWriter, r *http.Request) {
-	renderTemplate(w, "base.html")
-}
-
 func main() {
-	http.HandleFunc("/", indexHandler)
+	repository.InitDB("plain.db")
+	repository.Migrate()
+
+	r := mux.NewRouter()
+
+	r.HandleFunc("/", handlers.IndexHandler).Methods("GET")
+	r.HandleFunc("/about", handlers.AboutHandler).Methods("GET")
+	r.HandleFunc("/{listHash}", handlers.IndexHandler).Methods("GET")
+	r.HandleFunc("/todos/{todoID}", handlers.DeleteTodoHandler).Methods("DELETE")
+
+	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
+	http.HandleFunc("/ws", handlers.WsHandler)
+	http.Handle("/", r)
 
 	log.Println("Server starting on :8080")
 	if err := http.ListenAndServe(":8080", nil); err != nil {
 		log.Fatalf("Error starting server: %v", err)
 	}
 }
+

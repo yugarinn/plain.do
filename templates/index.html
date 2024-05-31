@@ -1,4 +1,36 @@
+{{define "title"}}{{.Hash}}{{end}}
+
 {{define "content"}}
-<h1>Welcome to the Home Page</h1>
-<p>This is the home page of the site.</p>
+<div
+  class="todo-container"
+  hx-ext="ws"
+  ws-connect="/ws?listId={{.Hash}}">
+    <div
+      id="todo-list"
+      class="todo-list"
+      hx-ext="inline">
+        {{range .Todos}}
+        {{template "todo" .}}
+        {{end}}
+    </div>
+
+    <form
+      ws-send
+      hx-on:htmx:ws-after-send="clearTodoInput()">
+        <input type="hidden" name="listId" value="{{.Hash}}"/>
+        <input type="hidden" name="action" value="addTodo"/>
+
+        <input
+          id="add-todo-input"
+          hx-trigger="keyup[keyCode==13]"
+          type="text"
+          name="text"
+          class="todo-add"
+          autocomplete="off"
+          placeholder="add new task" />
+    </form>
+</div>
+
+<div id="copyNotification" class="copy-notification">Link copied to clipboard</div>
+<div class="list-hash" id="list-hash" data-list-hash="{{.Hash}}">list <span class="list-link" hx-on:click="copyListLinkToClipboard()">#{{.Hash}}</span></div>
 {{end}}

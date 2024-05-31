@@ -1,0 +1,105 @@
+html {
+    font-family: "Consolas", "Courier New", "Menlo", "Monaco", "DejaVu Sans Mono", monospace;
+}
+
+.todo-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 50px;
+}
+
+.todo-list {
+    min-width: 700px;
+}
+
+.todo-element {
+    margin-bottom: 5px;
+}
+
+.todo-input {
+    width: 90%;
+}
+
+.todo-input.done {
+    text-decoration: line-through;
+}
+
+.todo-add {
+    margin-top: 15px;
+    margin-left: 25px;
+    align-self: flex-start;
+    border-bottom: 1px solid #000;
+    width: 700px;
+}
+
+.list-hash {
+    cursor: pointer;
+    position: absolute;
+    bottom: 5px;
+    left: 10px;
+}
+
+.list-link {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.list-link:hover {
+    text-decoration: none;
+}
+
+.delete-button {
+    cursor: pointer;
+}
+
+.delete-button:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.copy-notification {
+    display: none;
+    position: fixed;
+    bottom: 30px;
+    left: 13px;
+    transform: translateY(100%);
+    border-radius: 2px;
+    font-size: 12px;
+    opacity: 0;
+    transition: opacity .6s ease-in-out, transform .6s ease-in-out;
+    z-index: 10;
+}
+
+.copy-notification.show {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.about-container {
+    padding: 50px;
+}
+
+@media (max-width: 600px) {
+    .todo-container {
+        padding: 25px;
+    }
+
+    .todo-list {
+        min-width: 100%;
+    }
+
+    .todo-add {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .todo-input {
+        width: 90%;
+    }
+
+    .about-container {
+        padding: 10px;
+    }
+}

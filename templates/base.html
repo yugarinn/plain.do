@@ -1,12 +1,20 @@
+{{define "base"}}
 <!DOCTYPE html>
+
 <html>
 <head>
-    <title>{{block "title" .}}Plain.do{{end}}</title>
-    {{block "head" .}}
-    <link rel="stylesheet" href="styles.css">
-    {{end}}
+    <title>plain.do - {{block "title" .}}{{end}}</title>
+    <link rel="stylesheet" href="/static/reset.css">
+    <link rel="icon" href="/static/favicon.svg" />
+    <link rel="stylesheet" href="/static/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
     {{block "content" .}}{{end}}
+
+    <script src="/static/htmx.js"></script>
+    <script src="/static/ws.js"></script>
+    <script src="/static/script.js"></script>
 </body>
 </html>
+{{end}}

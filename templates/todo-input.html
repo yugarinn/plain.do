@@ -1,0 +1,20 @@
+{{define "todo-input"}}
+<div id="todo-input-{{.ID}}-wrapper">
+    <input type="hidden" name="action" value="updateTodo" />
+    <input type="hidden" name="listId" value="{{.TodoListHash}}" />
+    <input type="hidden" name="todoId" value="{{.ID}}" />
+    <input ws-send type="checkbox" id="todo-checkbox-{{.ID}}" name="done" {{if .Done}}checked{{end}}/>
+
+    <input
+      ws-send
+      hx-swap-oob="outerHTML:#todo-input-{{.ID}}-wrapper"
+      hx-on:htmx:ws-before-send="focusInput(this)"
+      hx-trigger="keyup delay:.5s"
+      id="todo-input-{{.ID}}"
+      class="todo-input {{if .Done}}done{{end}}"
+      name="text"
+      value="{{.Text}}"
+      {{if .Done}}readonly{{end}}
+      autocomplete="off"/>
+</div>
+{{end}}
