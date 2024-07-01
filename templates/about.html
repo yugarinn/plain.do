@@ -2,7 +2,25 @@
 
 {{define "content"}}
 <div class="about-container">
-    <h1>Plain.do</h1>
-    <p>Eleifend mi in nulla posuere sollicitudin aliquam ultrices sagittis orci, a scelerisque purus semper eget duis at tellus? A lacus vestibulum sed arcu non odio euismod lacinia at quis risus?</p>
+    <p><b>plain.do</b> is a tool to create simple TODO lists in your browser. The main features are:</p>
+    <br/>
+    <p>
+        <ul>
+            <li>Lists are created upon visiting the site.</li>
+            <li>Lists are assigned a unique hash that can be later used to retrieve them.</li>
+            <li>Lists that are inactive for more than a week will be deleted.</li>
+            <li>Lists can be edited by anyone that has access to them.</li>
+            <li>Lists are updated in real time to everybody.</li>
+        </ul>
+    </p>
+    <br/>
+    <p>This was built while fighting with my cats over keyboard ownership.</p>
+    <br/>
+    <p>This was built using HTMX, Go and sqlite.</p>
+    <br/>
+    <p>This can be easily DDoSed by just visiting it, since it creates a new database entry for each visit. Please don't. If you do, I'll just recreate the database, I don't want to write any complex anti DDoS logic. If you keep doing it, I'll just be sad, move this to my VPN, and keep it just for personal use. Please don't.</p>
+    <br/>
+    <p>The source code can be found at: <a href="https://github.com/yugarinn/plain.do" rel="noopener" target="_blank">https://github.com/yugarinn/plain.do</a>.</p>
+    <p>You can tell me my Go code sucks, but please tell me why.</p>
 </div>
 {{end}}

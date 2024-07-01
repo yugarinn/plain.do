@@ -60,7 +60,7 @@ html {
 
 .copy-notification {
     display: none;
-    position: fixed;
+    position: absolute;
     bottom: 30px;
     left: 13px;
     transform: translateY(100%);
@@ -79,6 +79,20 @@ html {
 
 .about-container {
     padding: 50px;
+}
+
+.info-container {
+    position: fixed;
+    bottom: 5px;
+    right: 15px;
+}
+
+ul {
+    margin-left: 20px;
+}
+
+li {
+    margin-bottom: 5px;
 }
 
 @media (max-width: 600px) {

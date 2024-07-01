@@ -3,4 +3,5 @@
 *.log
 tmp/
 
+bin/*
 plain.db
