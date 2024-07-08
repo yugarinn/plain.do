@@ -18,7 +18,6 @@ func main() {
 	r.HandleFunc("/", handlers.IndexHandler).Methods("GET")
 	r.HandleFunc("/about", handlers.AboutHandler).Methods("GET")
 	r.HandleFunc("/{listHash}", handlers.IndexHandler).Methods("GET")
-	r.HandleFunc("/todos/{todoID}", handlers.DeleteTodoHandler).Methods("DELETE")
 
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 	http.HandleFunc("/ws", handlers.WsHandler)

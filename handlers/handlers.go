@@ -252,17 +252,3 @@ func broadcastDeleteTodo(listID string, todoID int64) {
 		}
 	}
 }
-
-func DeleteTodoHandler(w http.ResponseWriter, r *http.Request) {
-    vars := mux.Vars(r)
-    todoID, err := strconv.ParseInt(vars["todoID"], 10, 64)
-    if err != nil {
-        http.Error(w, "Invalid todo ID", http.StatusBadRequest)
-        return
-    }
-
-	repository.DeleteTodo(todoID)
-
-	w.WriteHeader(http.StatusOK)
-}
-
