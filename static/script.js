@@ -10,16 +10,18 @@ function init() {
 }
 
 function sleep(ms) {
-  return new Promise(r => setTimeout(r, ms))
+  return new Promise((r) => setTimeout(r, ms))
 }
 
 function addCurrentListHashToUrl() {
   const currentUrl = window.location.href
-  const currentUrlHash = window.location.pathname.split("/").pop()
+  const currentUrlHash = window.location.pathname.split('/').pop()
 
   if (currentUrlHash == 'about') return
 
-  const currentListHash = document.getElementById('list-hash').getAttribute('data-list-hash')
+  const currentListHash = document
+    .getElementById('list-hash')
+    .getAttribute('data-list-hash')
 
   if (currentListHash == currentUrlHash) return
 
@@ -30,26 +32,27 @@ function addCurrentListHashToUrl() {
 }
 
 function clearTodoInput() {
-  document.getElementById('add-todo-input').value = '';
+  document.getElementById('add-todo-input').value = ''
 }
 
 function copyListLinkToClipboard() {
-    navigator.clipboard.writeText(window.location.href)
-             .then(showCopyNotification)
-             .catch(err => console.error('Error copying URL to clipboard: ', err))
+  navigator.clipboard
+    .writeText(window.location.href)
+    .then(showCopyNotification)
+    .catch((err) => console.error('Error copying URL to clipboard: ', err))
 }
 
 function showCopyNotification() {
-    const notification = document.getElementById('copyNotification')
-    notification.classList.add('show')
+  const notification = document.getElementById('copyNotification')
+  notification.classList.add('show')
 
-    setTimeout(() => notification.classList.remove('show'), 2000)
+  setTimeout(() => notification.classList.remove('show'), 2000)
 }
 
 function focusInput(target) {
-  sleep(1000).then(() => {
+  sleep(200).then(() => {
     const input = document.getElementById(target.id)
-    if (! input) return
+    if (!input) return
 
     const value = input.value
 
@@ -60,14 +63,39 @@ function focusInput(target) {
 }
 
 function deleteTodoListener(event) {
-  if (! event.detail.message) return
+  if (!event.detail.message) return
 
   try {
     const message = JSON.parse(event.detail.message)
     if (message.action !== 'deleteTodo') return
 
-    document.getElementById(`todo-${message.todoID}`).remove()
+    const removeTarget = document.getElementById(`todo-${message.todoID}`)
+    const upperTodoElement = findUpperTodoInput(removeTarget)
+
+    if (upperTodoElement) {
+      focusInput(upperTodoElement)
+    }
+
+    removeTarget.remove()
   } catch {}
+}
+
+function findUpperTodoInput(currentInput) {
+    let currentForm = currentInput.closest('.todo-element');
+
+    if (!currentForm) return null;
+
+    let previousForm = currentForm.previousElementSibling;
+
+    while (previousForm && !previousForm.classList.contains('todo-element')) {
+        previousForm = previousForm.previousElementSibling;
+    }
+
+    if (previousForm) {
+        return previousForm.querySelector('.todo-input');
+    }
+
+    return null;
 }
 
 window.onload = init()
