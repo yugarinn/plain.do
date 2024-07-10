@@ -3,6 +3,7 @@ package handlers
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -140,6 +141,9 @@ func addTodoHandler(w http.ResponseWriter, message WsIngressMessage) {
 		log.Println(err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
+
+	fmt.Println("HANDLER")
+	fmt.Println(todo)
 
 	var buf bytes.Buffer
 	err = tmpl.ExecuteTemplate(&buf, "todo", todo)

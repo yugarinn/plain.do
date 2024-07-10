@@ -6,6 +6,7 @@ import (
 	"log"
 
 	_ "github.com/mattn/go-sqlite3"
+	"github.com/microcosm-cc/bluemonday"
 )
 
 
@@ -124,15 +125,20 @@ func CreateList() (*TodoList, error) {
 }
 
 func AddTodoToListByHash(hash string, text string) (*Todo, error) {
-	currentTime := time.Now().Format("2006-01-02 15:04:05")
-	list, _ := FindTodoListByHash(hash)
+	list, err := FindTodoListByHash(hash)
+	if err != nil {
+		return nil, err
+	}
 
+	policy := bluemonday.UGCPolicy()
+	currentTime := time.Now().Format("2006-01-02 15:04:05")
 	todo := &Todo{
-		Text:      text,
+		Text:      policy.Sanitize(text),
 		Done:      0,
 		CreatedAt: currentTime,
 		UpdatedAt: currentTime,
 	}
+
 
 	query := "INSERT INTO todos_todos (list_id, text, is_done, created_at, updated_at) VALUES (?, ?, ?, ?, ?)"
 	result, err := Database.Exec(query, list.ID, todo.Text, todo.Done, todo.CreatedAt, todo.UpdatedAt)
