@@ -81,21 +81,25 @@ function deleteTodoListener(event) {
 }
 
 function findUpperTodoInput(currentInput) {
-    let currentForm = currentInput.closest('.todo-element');
+  let currentForm = currentInput.closest('.todo-element')
 
-    if (!currentForm) return null;
+  if (!currentForm) return null
 
-    let previousForm = currentForm.previousElementSibling;
+  let previousForm = currentForm.previousElementSibling
+  while (previousForm && !previousForm.classList.contains('todo-element')) {
+    previousForm = previousForm.previousElementSibling
+  }
 
-    while (previousForm && !previousForm.classList.contains('todo-element')) {
-        previousForm = previousForm.previousElementSibling;
-    }
+  if (previousForm) return previousForm.querySelector('.todo-input')
 
-    if (previousForm) {
-        return previousForm.querySelector('.todo-input');
-    }
+  let nextForm = currentForm.nextElementSibling
+  while (nextForm && !nextForm.classList.contains('todo-element')) {
+    nextForm = nextForm.nextElementSibling
+  }
 
-    return null;
+  if (nextForm) return nextForm.querySelector('.todo-input')
+
+  return null
 }
 
 window.onload = init()
