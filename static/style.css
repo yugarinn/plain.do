@@ -33,11 +33,17 @@ html {
     width: 700px;
 }
 
+.list-hash-container {
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    width: 100vw;
+    padding: 5px 10px;
+    background-color: #FFFFFF;
+}
+
 .list-hash {
     cursor: pointer;
-    position: absolute;
-    bottom: 5px;
-    left: 10px;
 }
 
 .list-link {
@@ -97,7 +103,7 @@ li {
 
 @media (max-width: 600px) {
     .todo-container {
-        padding: 25px;
+        padding: 25px 25px 60px 25px;
     }
 
     .todo-list {
