@@ -1,12 +1,12 @@
 function init() {
+  // https://www.reddit.com/r/htmx/comments/1acmvso/hxswapoob_swaps_inner_html_of_a_component/
   htmx.defineExtension('inline', {
     isInlineSwap: (swapStyle) => true,
   })
-  // https://www.reddit.com/r/htmx/comments/1acmvso/hxswapoob_swaps_inner_html_of_a_component/
-  // htmx.logAll()
 
   document.addEventListener('htmx:wsBeforeMessage', deleteTodoListener)
   addCurrentListHashToUrl()
+  addShortcutsListeners()
 }
 
 function sleep(ms) {
@@ -100,6 +100,95 @@ function findUpperTodoInput(currentInput) {
   if (nextForm) return nextForm.querySelector('.todo-input')
 
   return null
+}
+
+function addShortcutsListeners() {
+  const newTaskInput = document.getElementById('add-todo-input')
+
+  const focusNewTask = function () {
+    newTaskInput.focus()
+  }
+
+  const toggleSelectedTaskStatus = function () {
+    const currentFocusedElement = document.activeElement
+    if (! currentFocusedElement.classList.contains('todo-input')) return
+
+    const checkElement = currentFocusedElement.previousElementSibling
+    checkElement.click()
+    focusInput(currentFocusedElement)
+  }
+
+  const deleteSelectedTask = function () {
+    const currentFocusedElement = document.activeElement
+    if (! currentFocusedElement.classList.contains('todo-input')) return
+
+    currentFocusedElement.value = ''
+  }
+
+  // TODO: simplify and prevent the default HTMX onkeyup event from happening after focus change
+  const focusClosesTaskInput = function (direction) {
+    if (! ['up', 'down'].includes(direction)) return
+
+    const currentElement = document.activeElement
+    const elements = Array.from(document.getElementsByClassName('todo-input'))
+
+    if (elements.length == 0) return
+
+    if (currentElement.classList.contains('todo-input')) {
+      let targetTaskIndex
+      const currentSelectedTaksIndex = elements.findIndex((element) => element.id == currentElement.id)
+
+      if (direction == 'up') targetTaskIndex = currentSelectedTaksIndex - 1
+      if (direction == 'down') targetTaskIndex = currentSelectedTaksIndex + 1
+
+      if (targetTaskIndex < 0 || targetTaskIndex > elements.length - 1) {
+        focusNewTask()
+        return
+      }
+
+      const targetElement = elements[targetTaskIndex]
+      focusInput(targetElement)
+
+      return
+    }
+
+    if (direction == 'up') {
+      const targetElement = elements[elements.length - 1]
+      focusInput(targetElement)
+    }
+
+    if (direction == 'down') {
+      const targetElement = elements[0]
+      focusInput(targetElement)
+    }
+  }
+
+  document.addEventListener('keydown', function(event) {
+    if (event.ctrlKey && event.shiftKey && event.key === 'N') {
+      event.preventDefault()
+      focusNewTask()
+    }
+
+    if (event.ctrlKey && event.shiftKey && event.code === 'Space') {
+      event.preventDefault()
+      toggleSelectedTaskStatus()
+    }
+
+    if (event.ctrlKey && event.shiftKey && event.key === 'D') {
+      event.preventDefault()
+      deleteSelectedTask()
+    }
+
+    if (event.key === 'ArrowUp' || event.keyCode === 38) {
+      event.preventDefault()
+      focusClosesTaskInput('up')
+    }
+
+    if (event.key === 'ArrowDown' || event.keyCode === 40) {
+      event.preventDefault()
+      focusClosesTaskInput('down')
+    }
+  })
 }
 
 window.onload = init()
