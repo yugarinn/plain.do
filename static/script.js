@@ -49,16 +49,16 @@ function showCopyNotification() {
   setTimeout(() => notification.classList.remove('show'), 2000)
 }
 
-function focusInput(target) {
-  sleep(200).then(() => {
+function focusInput(target, delayInMiliseconds = 200) {
+  sleep(delayInMiliseconds).then(() => {
     const input = document.getElementById(target.id)
     if (!input) return
 
     const value = input.value
 
-    input.focus()
     input.value = ''
     input.value = value
+    document.getElementById(target.id).focus()
   })
 }
 
