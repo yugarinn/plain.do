@@ -73,7 +73,7 @@ function deleteTodoListener(event) {
     const upperTodoElement = findUpperTodoInput(removeTarget)
 
     if (upperTodoElement) {
-      focusInput(upperTodoElement)
+      focusInput(upperTodoElement, 0)
     }
 
     removeTarget.remove()
@@ -125,8 +125,7 @@ function addShortcutsListeners() {
     currentFocusedElement.value = ''
   }
 
-  // TODO: simplify and prevent the default HTMX onkeyup event from happening after focus change
-  const focusClosesTaskInput = function (direction) {
+  const focusClosestTaskInput = function (direction) {
     if (! ['up', 'down'].includes(direction)) return
 
     const currentElement = document.activeElement
@@ -147,7 +146,7 @@ function addShortcutsListeners() {
       }
 
       const targetElement = elements[targetTaskIndex]
-      focusInput(targetElement)
+      focusInput(targetElement, 0)
 
       return
     }
@@ -181,12 +180,12 @@ function addShortcutsListeners() {
 
     if (event.key === 'ArrowUp' || event.keyCode === 38) {
       event.preventDefault()
-      focusClosesTaskInput('up')
+      focusClosestTaskInput('up')
     }
 
     if (event.key === 'ArrowDown' || event.keyCode === 40) {
       event.preventDefault()
-      focusClosesTaskInput('down')
+      focusClosestTaskInput('down')
     }
   })
 }

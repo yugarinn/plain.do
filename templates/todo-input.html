@@ -9,7 +9,7 @@
       ws-send
       hx-swap-oob="outerHTML:#todo-input-{{.ID}}-wrapper"
       hx-on:htmx:ws-before-send="focusInput(this, 100)"
-      hx-trigger="keyup delay:2s"
+      hx-trigger="keyup changed delay:2s"
       id="todo-input-{{.ID}}"
       class="todo-input {{if .Done}}done{{end}}"
       name="text"

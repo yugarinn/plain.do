@@ -17,10 +17,9 @@ html {
     margin-bottom: 5px;
 }
 
-/* TODO */
-/* .todo-element:focus-within { */
-/*      margin-left: 5px; */
-/* } */
+.todo-input:focus {
+    text-decoration: underline;
+}
 
 .todo-input {
     width: 90%;
